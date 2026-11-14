@@ -20,7 +20,7 @@ type BlogPost = {
 };
 
 export const BlogPostList = () => {
-  // fetch all categories to use in the combobox filter
+  // fetch all subjects to use in the combobox filter
   const {
     result: { data: categories },
     query: { isLoading: categoryIsLoading },

@@ -1,6 +1,5 @@
 import {
   Refine,
-  GitHubBanner,
   WelcomePage,
   Authenticated,
 } from "@refinedev/core";
@@ -19,13 +18,13 @@ import {
   BlogPostCreate,
   BlogPostEdit,
   BlogPostShow,
-} from "./pages/blog-posts";
+} from "./pages/home";
 import {
-  CategoryList,
-  CategoryCreate,
+  SubjectsList,
+  SubjectsCreate,
   CategoryEdit,
   CategoryShow,
-} from "./pages/categories";
+} from "./pages/subjects";
 import { dataProvider } from "./providers/data";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
@@ -37,11 +36,12 @@ import { useNotificationProvider } from "./components/refine-ui/notification/use
 import { Toaster } from "./components/refine-ui/notification/toaster";
 import { ThemeProvider } from "./components/refine-ui/theme/theme-provider";
 import "./App.css";
+import Dashboard from "@/pages/dashboard.tsx";
+import {BookOpen, Home} from "lucide-react";
 
 function App() {
   return (
     <BrowserRouter>
-      <GitHubBanner />
       <RefineKbarProvider>
         <ThemeProvider>
           <DevtoolsProvider>
@@ -49,62 +49,44 @@ function App() {
               dataProvider={dataProvider}
               notificationProvider={useNotificationProvider()}
               routerProvider={routerProvider}
-              resources={[
-                {
-                  name: "blog_posts",
-                  list: "/blog-posts",
-                  create: "/blog-posts/create",
-                  edit: "/blog-posts/edit/:id",
-                  show: "/blog-posts/show/:id",
-                  meta: {
-                    canDelete: true,
-                  },
-                },
-                {
-                  name: "categories",
-                  list: "/categories",
-                  create: "/categories/create",
-                  edit: "/categories/edit/:id",
-                  show: "/categories/show/:id",
-                  meta: {
-                    canDelete: true,
-                  },
-                },
-              ]}
               options={{
                 syncWithLocation: true,
                 warnWhenUnsavedChanges: true,
                 projectId: "a0jwM9-D95V5A-bqaNGB",
               }}
+              resources={
+                [{
+                  name: 'dashboard',
+                  list: '/',
+                  meta: {label: 'Home', icon: <Home />}
+                },
+                {
+                  name: 'subjects',
+                  list: '/subjects',
+                  create: '/subjects/create',
+                  meta: {label: 'Subjects', icon: <BookOpen />}
+                }
+                ]}
             >
               <Routes>
                 <Route
-                  element={
-                    <Layout>
-                      <Outlet />
-                    </Layout>
-                  }
-                >
+                    element={
+                      <Layout>
+                        <Outlet />
+                      </Layout>
+                    }>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="subjects">
+                    <Route index element={<SubjectsList />}/>
+                    <Route path="create" element={<SubjectsCreate />}/>
+                  </Route>
+
                   <Route
-                    index
-                    element={<NavigateToResource resource="blog_posts" />}
+                    path="*"
+                    element={<NavigateToResource resource="dashboard" />}
                   />
-                  <Route path="/blog-posts">
-                    <Route index element={<BlogPostList />} />
-                    <Route path="create" element={<BlogPostCreate />} />
-                    <Route path="edit/:id" element={<BlogPostEdit />} />
-                    <Route path="show/:id" element={<BlogPostShow />} />
-                  </Route>
-                  <Route path="/categories">
-                    <Route index element={<CategoryList />} />
-                    <Route path="create" element={<CategoryCreate />} />
-                    <Route path="edit/:id" element={<CategoryEdit />} />
-                    <Route path="show/:id" element={<CategoryShow />} />
-                  </Route>
-                  <Route path="*" element={<ErrorComponent />} />
                 </Route>
               </Routes>
-
               <Toaster />
               <RefineKbar />
               <UnsavedChangesNotifier />
