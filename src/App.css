@@ -13,15 +13,6 @@
   }
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
 :root {
   --background: oklch(0.9818 0.0054 95.0986);
   --foreground: oklch(0.3438 0.0269 95.7226);
@@ -182,3 +173,30 @@
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
 }
+
+@layer components {
+  .page-title{
+    @apply text-3xl font-bold text-foreground tracking-tight;
+  }
+
+  .colum-title {
+    @apply flex items-center gap-1 font-bold;
+  }
+
+  .search-field {
+    @apply relative w-full max-h-9 md:max-w-72;
+
+    .search-icon {
+      @apply absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary;
+    }
+  }
+
+  .actions-row {
+    @apply flex flex-col gap-3 sm:flex-row sm:gap-2 w-full sm:w-auto;
+  }
+
+  .intro-row {
+    @apply flex flex-col gap-3 w-full sm:flex-row sm:items-center sm:justify-between;
+  }
+}
+
