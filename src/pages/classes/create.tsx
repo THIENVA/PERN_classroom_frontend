@@ -23,10 +23,6 @@ const Create = () => {
 
     const form = useForm({
         resolver: zodResolver(classSchema),
-        refineCoreProds: {
-            resource: 'classes',
-            action: 'create',
-        }
     })
 
     const teachers = [
@@ -160,7 +156,7 @@ const Create = () => {
                                         render={({field}) => (
                                             <FormItem>
                                                 <FormLabel>Teacher <span className="text-orange-600">*</span></FormLabel>
-                                                <Select onValueChange={(value) => field.onChange(Number (value))} value={field?.value?.toString()}>
+                                                <Select onValueChange={(value) => field.onChange(value)} value={field?.value?.toString()}>
                                                     <FormControl>
                                                         <SelectTrigger className="w-full" >
                                                             <SelectValue placeholder="Select a teacher" />
@@ -209,7 +205,7 @@ const Create = () => {
                                         render={({field}) => (
                                             <FormItem>
                                                 <FormLabel>Status <span className="text-orange-600">*</span></FormLabel>
-                                                <Select onValueChange={(value) => field.onChange(Number (value))} value={field?.value?.toString()}>
+                                                <Select onValueChange={(value) => field.onChange(value)} value={field?.value?.toString()}>
                                                     <FormControl>
                                                         <SelectTrigger className="w-full" >
                                                             <SelectValue placeholder="Select status" />

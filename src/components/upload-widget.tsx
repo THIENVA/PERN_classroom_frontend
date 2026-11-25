@@ -24,10 +24,11 @@ const UploadWidget = ({ value = null, onChange, disabled = false }: {
     useEffect(() => {
         if (typeof window === 'undefined') return;
         let cancelled = false;
+        let timer: ReturnType<typeof setTimeout> | null = null;
         const init = () => {
             if (cancelled || widgetRef.current) return;
             if (!window.cloudinary) {
-                setTimeout(init, 200);
+                timer = setTimeout(init, 200);
                 return;
             }
             widgetRef.current = window.cloudinary.createUploadWidget(
@@ -45,7 +46,12 @@ const UploadWidget = ({ value = null, onChange, disabled = false }: {
             );
         };
         init();
-        return () => { cancelled = true; };
+        return () => {
+            cancelled = true;
+            if (timer) clearTimeout(timer);
+            (widgetRef.current as any)?.destroy?.();
+            widgetRef.current = null;
+        };
     }, []);
 
     const openWidget = () => {
