@@ -198,5 +198,9 @@
   .intro-row {
     @apply flex flex-col gap-3 w-full sm:flex-row sm:items-center sm:justify-between;
   }
+
+  .class-form-card {
+    @apply w-full max-w-3xl mx-auto;
+  }
 }
 
